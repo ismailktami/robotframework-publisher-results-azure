@@ -26,9 +26,9 @@ setup(
     description='Description',
     url='',
     author_email='ktamiismail@gmail.com',
-    author='',
+    author='Ismail Ktami',
     licence='MIT',
-    keywords='azure-devops robot-framework results publish',
+    keywords='azure-devops robot-framework results publish test plans',
     packages=find_packages(),
     install_requires=[
         '',

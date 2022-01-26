@@ -2,6 +2,7 @@ import os
 from robot.api import ExecutionResult
 from SuiteResults import SuiteResults
 from AzureApiPlans import AzureApiPlans
+from PublisherReport import PublisherReport
 from utils import *
 from FormatterPayloadAzure import FormatterPayloadAzure
 from Constants import *   
@@ -12,13 +13,13 @@ from Variables import *
 
 @library(scope='GLOBAL', auto_keywords=True)
 class PublisherAzureTestPlan:
-    def __init__(self,output_dir,token,url_project) -> None:
+    def __init__(self,output_dir,url_project,token) -> None:
         self.azure_api=AzureApiPlans(url_project,token)
         self.output_dir=output_dir
         self.url_project=url_project
 
     @keyword
-    def publish_results(self) -> None:
+    def publish_results_to_test_plan(self) -> None:
         try:
             path = os.path.join(self.output_dir, 'output.xml')
             results = ExecutionResult(path)
@@ -59,14 +60,14 @@ class PublisherAzureTestPlan:
                 logger.error("Publication de resultats AZURE KO : Exception :\n"+str(ex))   
 
     @keyword
-    def publish_attachements_to_results(self,run_id) -> None:
+    def publish_attachements_to_test_result(self,run_id) -> None:
         test_resutls=self.azure_api.get_results_run(run_id)
         for result in test_resutls['value']:
             if result['outcome']=="Failed":
                                     filename='ID-'+result["testCase"]["id"]+'_TEST_FAILED.png'
                                     self.azure_api.add_attachement_to_testresult(run_id,result['id'],self.output_dir,filename)
     @keyword
-    def publish_report_to_run(self,run_id) -> None:
-        self.azure_api.publish_report_to_run(run_id,self.output_dir)
+    def publish_report_to_run(self,run_id,dir_zip) -> None:
+        PublisherReport.publish(run_id,self.output_dir,dir_zip=False)
 
 
