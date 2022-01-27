@@ -1,4 +1,5 @@
-import coloredlogs, logging
+import coloredlogs
+import logging
 
 # Create a logger object.
 global logger
