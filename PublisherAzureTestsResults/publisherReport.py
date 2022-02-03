@@ -1,21 +1,20 @@
-from Constants import URL_PROJECT
 import shutil
 from shutil import Error
 import base64
 import requests
 import json
-
+from .constants import URL_PROJECT
+from requests.auth import HTTPBasicAuth
 
 class PublisherReport:
 
     def __init__(self, token):
         self.token = token
         self.headers = {
-            'Authorization': token,
             'Content-Type': 'application/json'
         }
+        self.authbasic=HTTPBasicAuth('',token)
 
-    @staticmethod
     def publish(self, run_id, report_path, zip=False):
         if not zip:
             shutil.make_archive("report", "zip", report_path)
@@ -30,12 +29,11 @@ class PublisherReport:
             endpoint = URL_PROJECT+"/test/Runs/" + \
                 str(run_id)+"/attachments?api-version=6.0-preview.1"
             response = requests.request(
-                "POST", endpoint, headers=self.headers, data=payload)
+                "POST", endpoint, headers=self.headers, auth=self.authbasic,data=payload)
             print(response)
         except Error as error:
             print(error)
 
-    @staticmethod
     def convert_report_zip_to_base64(self, report_zip):
         with open(report_zip, "rb") as report:
             data = base64.b64encode(report.read())

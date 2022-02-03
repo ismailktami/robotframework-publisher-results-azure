@@ -1,7 +1,6 @@
 from robot.api import ResultVisitor
-from Logger import logger
-import Constants
-
+from .logger import logger
+from .constants  import *
 
 class SuiteResults(ResultVisitor):
     def __init__(self, robotOutputPath):
@@ -22,7 +21,7 @@ class SuiteResults(ResultVisitor):
             infoTestCase = {}
             try:
                 infoTestCase['id'] = SuiteResults.get_tags_with_prefixe(
-                    tc, Constants.PREFIXE_TAG_TEST_ID)
+                    tc, PREFIXE_TAG_TEST_ID)
                 infoTestCase['starttime'] = tc.starttime
                 infoTestCase['endtime'] = tc.endtime
                 infoTestCase['elapsedtime'] = tc.elapsedtime
@@ -31,9 +30,9 @@ class SuiteResults(ResultVisitor):
                 infoTestCase['name'] = tc.name
                 infoTestCase["status"] = tc.status
                 infoTestCase["planId"] = SuiteResults.get_tags_with_prefixe(
-                    tc, Constants.PREFIXE_TAG_TESTPLAN_ID)
+                    tc, PREFIXE_TAG_TESTPLAN_ID)
                 infoTestCase["suiteId"] = SuiteResults.get_tags_with_prefixe(
-                    tc, Constants.PREFIXE_TAG_SUITE_ID)
+                    tc, PREFIXE_TAG_SUITE_ID)
                 tests_ids_status[infoTestCase['id']
                                  ] = infoTestCase['status']
                 testcases[infoTestCase['id']] = infoTestCase
