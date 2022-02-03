@@ -86,7 +86,7 @@ class AzureTestPlansClient:
 str(run_id)+"?api-version="+str(version)
         payload = json.dumps(payload)
         response = requests.request(
-            "PATCH", url, headers=self.headers, data=payload)
+            "PATCH", url, headers=self.headers,auth=self.authbasic,  data=payload)
         print(response.text)
 
     def publish_report_to_run(self, run_id, report_path):

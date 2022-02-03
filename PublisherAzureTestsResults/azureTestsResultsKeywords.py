@@ -65,13 +65,10 @@ class AzureTestsResultsKeywords:
                 endtime_execution = datetime.strptime(suite['endtime'], "%Y%m%d %H:%M:%S.%f").isoformat()
                 #Create run execution
                 run = self.azure_api.create_run(suite['planId'], suite['name']+' '+str(self.variablesBuiltIn.ENVIRONNEMENT).upper(), starttime_execution, endtime_execution, self.variablesBuiltIn.USERNAME)
-                
                 #Format payload to publish results
                 payload = FormatterPayloadAzure.format_testresults_payload(testpoints)
-                
                 #Add Tests Results to run              
                 results = self.azure_api.add_tests_results_to_run(run['id'], payload)
-                
                 self.azure_api.update_run(run['id'], {
                     "comment": NEW_LINE+"JOB ID = "+self.variablesBuiltIn.JOB_ID +
                     NEW_LINE+"JOB URL="+self.variablesBuiltIn.JOB_URL +

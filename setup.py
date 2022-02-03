@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from .version import VERSION
+from PublisherAzureTestsResults.version import VERSION
 
 classifiers = [
     'License :: OSI Approved :: MIT License',
@@ -8,19 +8,18 @@ classifiers = [
 ]
 
 setup(
-  name='robotframework-azure-results',
+  name='robotframework-publisher-results-azure',
   version=VERSION,
-  description='Library robot framework for publish results tests',
+  description='Library to publish robot framework automation results on azure',
   author='Ismail Ktami',
   author_email='ktamiismail@hotmail.com',
   license='MIT', 
   classifiers=classifiers,
-  keywords='robotframework azure devops testplans', 
+  keywords='robotframework azure devops testplans results outcomes', 
   packages=find_packages(),
   install_requires=[
     'robotframework>=3.2.2',
     'requests',
-    'json',
     'utils'
   ] 
 )
