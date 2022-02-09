@@ -1,11 +1,13 @@
+from genericpath import isdir
 import requests
 import json
 import base64
-from .publisherReport import PublisherReport
 from .variables import *
 from .logger import logger
 from requests.auth import HTTPBasicAuth
-
+import shutil
+from shutil import Error
+import os
 class AzureTestPlansClient:
     def __init__(self, azure_url_project, token, version='6.0-preview.2'):
         self.version = version
@@ -89,25 +91,50 @@ str(run_id)+"?api-version="+str(version)
             "PATCH", url, headers=self.headers,auth=self.authbasic,  data=payload)
         print(response.text)
 
-    def publish_report_to_run(self, run_id, report_path):
-        print('\n', self.__class__, 'publish_report_to_run')
-        publisher = PublisherReport()
-        publisher.publish(run_id, report_path)
-
     def get_results_run(self, run_id):
         url = self.azure_url_project+"/test/Runs/" + \
             str(run_id)+"/results?detailsToInclude=WorkItems,Iterations&api-version=6.0"
         response = requests.request("GET", url, headers=self.headers,auth=self.authbasic)
         return response.json()
 
-    def add_attachement_to_testresult(self, run_id, test_result_id, output_dir, filename):
-        with open(output_dir+"/"+filename, "rb") as report:
+    def add_attachement_to_testresult(self, run_id, test_result_id, filepath,comment):
+        with open(filepath, "rb") as report:
             data = base64.b64encode(report.read())
         payload = json.dumps({
             "stream": str(data, 'utf-8'),
-            "fileName": filename,
-            "comment": "Capture Page Error",
+            "fileName": str(filepath).split("/")[-1],
+            "comment":comment,
             "attachmentType": "GeneralAttachment"
         })
         response = requests.request("POST", self.azure_url_project+"/test/Runs/"+str(run_id)+"/Results/"+str(
             test_result_id)+"/attachments?api-version=6.0-preview.1", headers=self.headers,auth=self.authbasic, data=payload)
+
+    def add_attachement_to_run(self, run_id, attachement_path, zip=False):
+        stream = None
+        if isdir(attachement_path):
+            if not zip:
+                shutil.make_archive("report", "zip", attachement_path)
+            stream = self.convert_file_zip_to_base64("./report.zip")
+            filename="report.zip"
+        else :
+            stream = self.convert_file_zip_to_base64(attachement_path)
+            filename=os.path.basename(attachement_path)
+        payload = json.dumps({
+            "stream": str(stream, 'utf-8'),
+            "fileName": filename,
+            "comment": "Test Run attachment",
+            "attachmentType": "GeneralAttachment"
+        })
+        try:
+            endpoint = self.azure_url_project+"/test/Runs/" + \
+                str(run_id)+"/attachments?api-version=6.0-preview.1"
+            response = requests.request(
+                "POST", endpoint, headers=self.headers, auth=self.authbasic,data=payload)
+            print(response)
+        except Error as error:
+            print(error)
+
+    def convert_file_zip_to_base64(self, report_zip):
+        with open(report_zip, "rb") as report:
+            data = base64.b64encode(report.read())
+        return data
