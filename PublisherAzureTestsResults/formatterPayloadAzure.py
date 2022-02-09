@@ -1,7 +1,6 @@
 from itertools import groupby
 from operator import itemgetter
-from Constants import *
-
+from .constants import *
 
 class FormatterPayloadAzure:
     def __init__(self):
