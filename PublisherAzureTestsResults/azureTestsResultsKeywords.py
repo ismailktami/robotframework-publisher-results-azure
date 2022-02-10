@@ -94,8 +94,8 @@ class AzureTestsResultsKeywords:
         test_resutls = self.azure_api.get_results_run(run_id)
         for result in test_resutls['value']:
             if result['outcome'] == "Failed":
-                file_path =self.output_dir+"/"+PREFIXE_SCREEN_ERROR+'_'+result["testCase"]["id"]+'_'+SUFIXE_SCREEN_ERROR+'.png'
-                self.azure_api.add_attachement_to_testresult(run_id, result['id'],file_path)
+                file_path =self.output_dir+"/"+PREFIXE_SCREEN_ERROR+result["testCase"]["id"]+'-'+SUFIXE_SCREEN_ERROR+'.png'
+                self.azure_api.add_attachement_to_testresult(run_id, result['id'],file_path,"Capture Page Error")
 
     @keyword
     def add_report_to_run(self, run_id, dir_zip=False) -> None:
