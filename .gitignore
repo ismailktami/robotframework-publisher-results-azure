@@ -1,0 +1,3 @@
+/dist
+/robotframework_publisher_results_azure.*
+/PublisherAzureTestsResults/__pycache__
