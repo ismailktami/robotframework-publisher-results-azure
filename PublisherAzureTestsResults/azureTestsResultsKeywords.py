@@ -1,5 +1,6 @@
 from inspect import trace
 import os
+from urllib import request
 from robot.api import ExecutionResult
 from .suiteResults import SuiteResults
 from .azureTestPlansClient import AzureTestPlansClient
@@ -23,10 +24,16 @@ class AzureTestsResultsKeywords:
 
     @keyword
     def create_instance_azure_publisher(self,output_dir, url_project, token):
+        """Prepare library instance to publish results
+        You have to specify the folder that contains the test results and  the url_project and the token
+        Exemples:
+        Create Instance Azure Publisher |  ${EXECDIR}/output_dir2 | ${url_project}  |  ${token}    
+        """
         self.output_dir = output_dir
         self.url_project = self.parseUrlProjectAPI(url_project)
         self.variablesBuiltIn=VariablesBuiltIn().getVariables()
         self.azure_api = AzureTestPlansClient(self.url_project, token)
+        self.test_accessibility_project()
         
     @keyword
     def publish_results_to_test_plan(self,result_xml_filename='output.xml') -> None:
@@ -90,21 +97,27 @@ class AzureTestsResultsKeywords:
 
         Exemples:
         | Add Screen Failure To Test Result | ${run_id} |
-        """       
-        test_resutls = self.azure_api.get_results_run(run_id)
-        for result in test_resutls['value']:
-            if result['outcome'] == "Failed":
-                file_path =self.output_dir+"/"+PREFIXE_SCREEN_ERROR+result["testCase"]["id"]+'-'+SUFIXE_SCREEN_ERROR+'.png'
-                self.azure_api.add_attachement_to_testresult(run_id, result['id'],file_path,"Capture Page Error")
-
+        """    
+        try:   
+            test_resutls = self.azure_api.get_results_run(run_id)
+            for result in test_resutls['value']:
+                if result['outcome'] == "Failed":
+                    file_path =self.output_dir+"/"+PREFIXE_SCREEN_ERROR+result["testCase"]["id"]+'-'+SUFIXE_SCREEN_ERROR+'.png'
+                    self.azure_api.add_attachement_to_testresult(run_id, result['id'],file_path,"Capture Page Error")
+        
+        except Exception as ex:
+            BuiltIn().fail(str(traceback.print_exc()))  
+            
     @keyword
     def add_report_to_run(self, run_id, dir_zip=False) -> None:
         """Attach report to run using run id
         Exemples:
         | Add Report To Run | ${run_id} |
         """  
-        self.azure_api.add_attachement_to_run(run_id,self.output_dir,dir_zip)
-    
+        try:
+            self.azure_api.add_attachement_to_run(run_id,self.output_dir,dir_zip)
+        except Exception as ex:
+            BuiltIn().fail(str(traceback.print_exc())) 
     @keyword
     def add_attachement_to_testresult(self, run_id,test_result_id,file_path,comment="Capture Page Error") -> None:
         """Attach the error screenshot to the ko test cases.
@@ -112,9 +125,11 @@ class AzureTestsResultsKeywords:
         Exemples:
         | Publish Attachements To Test Result | ${run_id} |
         """       
-        test_resutls = self.azure_api.get_results_run(run_id)
-        self.azure_api.add_attachement_to_testresult(run_id,test_result_id, self.output_dir, file_path,comment)
-
+        try:
+            test_resutls = self.azure_api.get_results_run(run_id)
+            self.azure_api.add_attachement_to_testresult(run_id,test_result_id, self.output_dir, file_path,comment)
+        except Exception as ex:
+            BuiltIn().fail(str(traceback.print_exc())) 
 
     @keyword
     def add_attachement_to_run(self, run_id,attachement, dir_zip=False) -> None:
@@ -123,12 +138,20 @@ class AzureTestsResultsKeywords:
         Exemples:
         | Publish Attachements To Test Result | ${run_id} | ${OUTPUT DIR}
         """  
-        self.azure_api.add_attachement_to_run(run_id,attachement,dir_zip)
-
+        try:
+            self.azure_api.add_attachement_to_run(run_id,attachement,dir_zip)
+        except Exception as ex:
+            BuiltIn().fail(str(traceback.print_exc())) 
+            
     @keyword
     def get_test_results_run_by_id(self,run_id):
         return self.azure_api.get_results_run(run_id)
     
+    @not_keyword
+    def test_accessibility_project(self):
+        if not(self.azure_api.test_accessibility_project()):
+             BuiltIn().fail("Invalid Url project or Invalid Acces token ") 
+
     @not_keyword
     def parseUrlProjectAPI(self,url):
         if str(url).endswith('/'): 
