@@ -9,6 +9,7 @@ classifiers = [
 
 setup(
   name='robotframework-publisher-results-azure',
+  url='https://github.com/ismailktami/robotframework-publisher-results-azure',
   version=VERSION,
   description='Library to publish robot framework automation results on azure',
   author='Ismail Ktami',
