@@ -48,8 +48,9 @@ class AzureTestsResultsKeywords:
             results = ExecutionResult(path)
             suitesresults = SuiteResults(self.output_dir)
             results = results.visit(suitesresults)
-
+            runs=[]
             for suite in suitesresults.suites:
+                print(suite["name"])
                 #Get the test cases based on their IDs injected in the test case tags
                 testpoints = self.azure_api.get_tests_points(suitesresults.get_testcase_ids(suite))
                 
@@ -75,7 +76,7 @@ class AzureTestsResultsKeywords:
                 #Create run execution
                 run = self.azure_api.create_run(suite['planId'], suite['name']+' '+str(self.variablesBuiltIn["environnement"]).upper(), starttime_execution, endtime_execution, self.variablesBuiltIn["username"])
                 #Format payload to publish results
-                payload = FormatterPayloadAzure.format_testresults_payload(testpoints)
+                payload = FormatterPayloadAzure.format_testresults_payload(testpoints,self.variablesBuiltIn["username"])
                 #Add Tests Results to run              
                 results = self.azure_api.add_tests_results_to_run(run['id'], payload)
                 self.azure_api.update_run(run['id'], {
@@ -86,8 +87,8 @@ class AzureTestsResultsKeywords:
                         NEW_LINE+"JOB NAME = "+self.variablesBuiltIn["job_name"] +
                         NEW_LINE+"ENVIRONNEMENT = "+self.variablesBuiltIn["environnement"],
                 })
-                return run['id']
-
+                runs.append(run['id'])
+            return runs
         except Exception as ex:
             BuiltIn().fail(str(traceback.print_exc()))
 

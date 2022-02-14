@@ -48,7 +48,7 @@ class FormatterPayloadAzure:
         return outcomes
 
     @staticmethod
-    def format_testresults_payload(testresults):
+    def format_testresults_payload(testresults,runBy):
         return [{
                 "AutomatedTestName": testresult['name'],
                 "comment": "",
@@ -58,7 +58,7 @@ class FormatterPayloadAzure:
                 "errorMessage": testresult['message'],
                 "owner": testresult['assignedTo'],
                 "runBy": {
-                    "displayName": "Ismail Ktami"
+                    "displayName": runBy
                 },
                 "state": "Completed",
                 "testCaseTitle": testresult['name'],
