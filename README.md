@@ -102,3 +102,7 @@ robot -v USERNAME:username  -v ENV:environnement -v JOB_ID:job_id -v JOB_URL:job
 <p dir="auto">The code in this project is licensed under MIT license.</p>
 
 </html>
+
+
+
+![Alt text](https://github.com/ismailktami/resources-repositories/blob/master/mapping.GIF)
