@@ -38,7 +38,7 @@ gatsby develop" tabindex="0" role="button">
   </div></div>
 </li>
 <li>
-<p dir="auto"><strong>Publish results automation in your testplans azure</strong></p>
+<p dir="auto"><strong>Publish automated results in your Azure test plans </strong></p>
 
     BuiltIn.Set Global Variable    ${USERNAME}    Ismail Ktami
     BuiltIn.Set Global Variable    ${ENVIRONNEMENT}    PREPROD
@@ -53,12 +53,13 @@ gatsby develop" tabindex="0" role="button">
 </li>
 </ol>
 
-<h2 dir="auto"><a id="user-content--want-to-contribute-" class="anchor" aria-hidden="true" href="#-want-to-contribute-"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a><g-emoji class="g-emoji" alias="monocle_face" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f9d0.png">🧐</g-emoji> How to prepare execution informations to publish results?</h2>
+<h2 dir="auto"><a id="user-content--want-to-contribute-" class="anchor" aria-hidden="true" href="#-want-to-contribute-"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a><g-emoji class="g-emoji" alias="monocle_face" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f9d0.png">🧐</g-emoji> How to prepare the execution information to publish the results? 
+</h2>
 
 
 <ol dir="auto">
 <li>
-<p dir="auto"><strong>Prepare you token azure account <g-emoji class="g-emoji" alias="point_up_2"></g-emoji></strong></p>
+<p dir="auto"><strong>Prepare your token azure account <g-emoji class="g-emoji" alias="point_up_2"></g-emoji></strong></p>
 <ul dir="auto">
 <li>Go to your account settings</li>
 <li>Click on Personal acces tokens</li>
@@ -68,7 +69,7 @@ gatsby develop" tabindex="0" role="button">
 <p dir="auto"><strong>Get the url of your project in azure</strong></p>
 </li>
 <li>
-<p dir="auto"><strong>Prepare informations of your execution</strong></p>
+<p dir="auto"><strong>Prepare the information of  your execution </strong></p>
 <ul dir="auto">
 <li>
 <p dir="auto">The username in azure devops of execution owner</p>
@@ -77,7 +78,7 @@ gatsby develop" tabindex="0" role="button">
 <p dir="auto">The environnement of execution</p>
 </li>
 <li>
-<p dir="auto">JOB Informations [OPTIONAL]</p>
+<p dir="auto">JOB Information [OPTIONAL]</p>
 <ul dir="auto">
 <li>JOB ID</li>
 <li>JOB Url</li>
